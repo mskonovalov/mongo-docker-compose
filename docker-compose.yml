@@ -1,90 +1,116 @@
-mongors1n1:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors1n1:/data/db
-mongors1n2:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors1n2:/data/db
-mongors1n3:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors1n3:/data/db
-mongors2n1:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors2n1:/data/db
-mongors2n2:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors2n2:/data/db
-mongors2n3:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongors2n3:/data/db
-mongocfg1:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongo-cfg-1:/data/db
-mongocfg2:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongo-cfg-2:/data/db
-mongocfg3:
-  image: mongo:3.0.6
-  command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
-  environment:
-    TERM: xterm
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ./data/mongo-cfg-3:/data/db
-mongos1:
-  image: mongo:3.0.6
-  command: mongos --configdb mongodockercompose_mongocfg1_1:27017,mongodockercompose_mongocfg2_1:27017,mongodockercompose_mongocfg3_1:27017 --port 27017
-  environment:
-    TERM: xterm
-  ports:
-    - 27017:27017
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-mongos2:
-  image: mongo:3.0.6
-  command: mongos --configdb mongodockercompose_mongocfg1_1:27017,mongodockercompose_mongocfg2_1:27017,mongodockercompose_mongocfg3_1:27017 --port 27017
-  environment:
-    TERM: xterm
-  ports:
-    - 27018:27017
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
+version: "3"
+services:
+
+  mongod11:
+    container_name: mongod11
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    expose:
+     - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod11:/data/db
+
+  mongod12:
+    container_name: mongod12
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod12:/data/db
+
+  mongod13:
+    container_name: mongod13
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors1 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod13:/data/db
+
+  mongod21:
+    container_name: mongod21
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod21:/data/db
+
+  mongod22:
+    container_name: mongod22
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod22:/data/db
+
+  mongod23:
+    container_name: mongod23
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --replSet mongors2 --dbpath /data/db --nojournal --oplogSize 16 --noauth
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongod23:/data/db
+
+  mongoc1:
+    container_name: mongoc1
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongoc1:/data/db
+
+  mongoc2:
+    container_name: mongoc2
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongoc2:/data/db
+
+  mongoc3:
+    container_name: mongoc3
+    image: mongo:3.0.14
+    command: mongod --noprealloc --smallfiles --dbpath /data/db --configsvr --noauth --port 27017
+    expose:
+         - "27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DATA_DIR}/mongoc3:/data/db
+
+  mongos1:
+    container_name: mongos1
+    image: mongo:3.0.14
+    depends_on:
+      - mongoc1
+      - mongoc2
+      - mongoc3
+    links:
+      - mongoc1
+      - mongoc2
+      - mongoc3
+    command: mongos --configdb mongoc1:27017,mongoc2:27017,mongoc3:27017 --port 27017
+    ports:
+      - 27017:27017
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+
+  mongos2:
+    container_name: mongos2
+    image: mongo:3.0.14
+    depends_on:
+      - mongoc1
+      - mongoc2
+      - mongoc3
+    links:
+      - mongoc1
+      - mongoc2
+      - mongoc3
+    command: mongos --configdb mongoc1:27017,mongoc2:27017,mongoc3:27017 --port 27017
+    ports:
+      - 27018:27017
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
